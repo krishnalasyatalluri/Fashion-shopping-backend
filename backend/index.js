@@ -1,0 +1,16 @@
+const configureDB=require('./configureDB/db')
+const express=require('express')
+const cors=require('cors')
+const PORT=4020
+const app=express()
+app.use(express.json())
+app.use(cors())
+configureDB()
+const userCltr=require('./controllers/user-cltr')
+const catalogCltr=require('./controllers/catalog-cltr')
+app.post('/api/user/login',userCltr.login)
+app.get('/api/product-search',catalogCltr.search)
+app.get('/api/recommendation/:username',catalogCltr.recommend)
+app.listen(PORT,()=>{
+    console.log('server running on', PORT)
+})
