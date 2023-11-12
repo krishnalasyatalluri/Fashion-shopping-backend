@@ -9,10 +9,12 @@ userCltr.login = async (req, res) => {
     const user = new User({...body,password:hashedPassword})
     try {
         const userDoc = await User.findOne({ username: body.username })
+        //if username already exists
         if (userDoc) {
             res.status(400).json({ message: 'username already exists' })
 
         } else {
+            //if username doesn't exist 
             const userRecord = await user.save()
             const token=jwt.sign({username:body.username},'backend')
             res.status(200).json({ message: 'credentials inserted successfully' })
